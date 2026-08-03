@@ -81,6 +81,21 @@ export function cleanJourney(
 }
 
 /**
+ * Live input mask for the time field: keeps digits, inserts the colon as you
+ * type ("0743" → "07:43"), and pads an impossible two-digit hour ("74…" can
+ * only mean 07:4…). No trailing colon after two digits, so backspace behaves.
+ */
+export function maskTime(raw: string): string {
+  const d = raw.replace(/\D/g, "").slice(0, 4);
+  if (d.length < 2) return d;
+  if (Number(d.slice(0, 2)) > 23) {
+    return `0${d[0]}:${d.slice(1, 3)}`;
+  }
+  if (d.length === 2) return d;
+  return `${d.slice(0, 2)}:${d.slice(2)}`;
+}
+
+/**
  * Coerce casual input to strict 24-hour "HH:MM": "743"/"7:43"/"07.43" → "07:43".
  * Anything unsalvageable is returned as typed so form validation can flag it.
  */

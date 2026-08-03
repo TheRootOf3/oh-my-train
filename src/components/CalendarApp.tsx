@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Journey, JourneyMap, Status } from "@/lib/journeys";
-import { isValidDateKey, journeyDesc, MAX_MINS, MAX_PLACE, normalizeTime } from "@/lib/journeys";
+import { isValidDateKey, journeyDesc, maskTime, MAX_MINS, MAX_PLACE, normalizeTime } from "@/lib/journeys";
 
 const STATUS_META: Record<Status, { label: string; icon: string; cls: string }> = {
   ontime: { label: "On time", icon: "●", cls: "mark-good" },
@@ -593,7 +593,7 @@ export default function CalendarApp({ signedIn }: { signedIn: boolean }) {
                     pattern="([01]\d|2[0-3]):[0-5]\d"
                     title="24-hour clock, e.g. 19:07"
                     value={formTime}
-                    onChange={(e) => setFormTime(e.target.value)}
+                    onChange={(e) => setFormTime(maskTime(e.target.value))}
                     onBlur={() => setFormTime((v) => normalizeTime(v))}
                   />
                 </label>
