@@ -8,7 +8,10 @@ const STATUS_META: Record<Status, { label: string; icon: string; cls: string }> 
   ontime: { label: "On time", icon: "●", cls: "mark-good" },
   delayed: { label: "Delayed", icon: "▲", cls: "mark-warn" },
   cancelled: { label: "Cancelled", icon: "✕", cls: "mark-crit" },
+  walked: { label: "Gave up & walked", icon: "🚶", cls: "mark-walk" },
 };
+
+const CHIP_CLS: Record<Status, string> = { ontime: "good", delayed: "warn", cancelled: "crit", walked: "walk" };
 
 const MONTHS = [
   "January", "February", "March", "April", "May", "June",
@@ -45,6 +48,7 @@ type ApiJourney = {
   destination?: string;
   label?: string;
   mins?: number;
+  followsId?: number;
   mine?: boolean;
 };
 
@@ -59,10 +63,34 @@ function groupRows(rows: ApiJourney[]): JourneyMap {
       destination: r.destination,
       label: r.label,
       mins: r.mins,
+      followsId: r.followsId,
       mine: r.mine,
     });
   }
   return map;
+}
+
+/** Order a day's journeys so each cascade renders as an indented chain under its root. */
+function buildChains(list: Journey[]): { j: Journey; depth: number }[] {
+  const ids = new Set(list.map((j) => String(j.id)));
+  const children = new Map<string, Journey[]>();
+  const roots: Journey[] = [];
+  for (const j of list) {
+    const p = j.followsId !== undefined ? String(j.followsId) : null;
+    if (p && ids.has(p)) {
+      if (!children.has(p)) children.set(p, []);
+      children.get(p)!.push(j);
+    } else {
+      roots.push(j);
+    }
+  }
+  const out: { j: Journey; depth: number }[] = [];
+  const walk = (j: Journey, depth: number) => {
+    out.push({ j, depth });
+    for (const c of children.get(String(j.id)) ?? []) walk(c, depth + 1);
+  };
+  for (const r of roots) walk(r, 0);
+  return out;
 }
 
 export default function CalendarApp({ signedIn }: { signedIn: boolean }) {
@@ -74,6 +102,7 @@ export default function CalendarApp({ signedIn }: { signedIn: boolean }) {
   const [loading, setLoading] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
+  const [followUpOf, setFollowUpOf] = useState<Journey | null>(null);
   const [legacyCount, setLegacyCount] = useState(0);
 
   // add-journey form
@@ -153,6 +182,7 @@ export default function CalendarApp({ signedIn }: { signedIn: boolean }) {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setSelectedKey(null);
+        setFollowUpOf(null);
         setFormStatus("delayed");
         setFormTime("");
         setFormFrom("");
@@ -175,13 +205,14 @@ export default function CalendarApp({ signedIn }: { signedIn: boolean }) {
     .filter(([k]) => k.startsWith(monthPrefix))
     .flatMap(([, v]) => v);
 
-  const total = monthJourneys.length;
-  const counts = { ontime: 0, delayed: 0, cancelled: 0 };
+  const counts = { ontime: 0, delayed: 0, cancelled: 0, walked: 0 };
   let minsLost = 0;
   for (const j of monthJourneys) {
     counts[j.status]++;
     if (j.status === "delayed" && j.mins) minsLost += j.mins;
   }
+  // walking is a lifestyle choice, not a train — it stays out of the punctuality maths
+  const total = counts.ontime + counts.delayed + counts.cancelled;
   const pct = total ? Math.round((counts.ontime / total) * 100) : null;
 
   /* ── calendar cells ── */
@@ -211,8 +242,15 @@ export default function CalendarApp({ signedIn }: { signedIn: boolean }) {
     setFormMins("");
   };
 
+  const cancelFollowUp = () => {
+    setFollowUpOf(null);
+    // "walked" only exists as a cascade resolution — snap back if the cascade ends
+    setFormStatus((s) => (s === "walked" ? "delayed" : s));
+  };
+
   const closeModal = () => {
     setSelectedKey(null);
+    setFollowUpOf(null);
     resetForm();
   };
 
@@ -228,6 +266,7 @@ export default function CalendarApp({ signedIn }: { signedIn: boolean }) {
     if (formFrom.trim()) payload.origin = formFrom.trim();
     if (formTo.trim()) payload.destination = formTo.trim();
     if (formStatus === "delayed") payload.mins = mins;
+    if (followUpOf) payload.followsId = followUpOf.id;
 
     setSaving(true);
     try {
@@ -240,6 +279,12 @@ export default function CalendarApp({ signedIn }: { signedIn: boolean }) {
         alert("Easy there. Logging is rate-limited — unlike the actual railway.");
         return;
       }
+      if (res.status === 400 || res.status === 409) {
+        const body = (await res.json().catch(() => null)) as { error?: string } | null;
+        alert(body?.error ?? "The server declined to log that one.");
+        if (res.status === 409) cancelFollowUp();
+        return;
+      }
       if (!res.ok) throw new Error(String(res.status));
       const body = (await res.json()) as { journey: ApiJourney };
       const journey: Journey = {
@@ -250,9 +295,12 @@ export default function CalendarApp({ signedIn }: { signedIn: boolean }) {
         destination: body.journey.destination,
         label: body.journey.label,
         mins: body.journey.mins,
+        followsId: body.journey.followsId,
         mine: body.journey.mine,
       };
       setData((d) => ({ ...d, [selectedKey]: [...(d[selectedKey] ?? []), journey] }));
+      // a cancelled train invites the next chapter of the cascade
+      setFollowUpOf(journey.status === "cancelled" ? journey : null);
       resetForm();
       labelInputRef.current?.focus();
     } catch {
@@ -270,6 +318,7 @@ export default function CalendarApp({ signedIn }: { signedIn: boolean }) {
       alert("Could not delete it. Some disappointments are permanent.");
       return;
     }
+    if (followUpOf?.id === j.id) cancelFollowUp();
     setData((d) => {
       const rest = (d[key] ?? []).filter((x) => x.id !== j.id);
       const next = { ...d };
@@ -318,6 +367,9 @@ export default function CalendarApp({ signedIn }: { signedIn: boolean }) {
   };
 
   const selectedJourneys = selectedKey ? (data[selectedKey] ?? []) : [];
+  const followedIds = new Set<number | string>(
+    selectedJourneys.flatMap((j) => (j.followsId !== undefined ? [j.followsId] : []))
+  );
 
   /* ── render ── */
 
@@ -369,6 +421,11 @@ export default function CalendarApp({ signedIn }: { signedIn: boolean }) {
             <span className="mark mark-crit" aria-hidden="true">✕</span> <strong>{counts.cancelled}</strong>{" "}
             {counts.cancelled === 1 ? "ghost train" : "ghost trains"}
           </span>
+          {counts.walked > 0 && (
+            <span className="stat">
+              <span className="mark" aria-hidden="true">🚶</span> <strong>{counts.walked}</strong> gave up
+            </span>
+          )}
         </div>
 
         <div
@@ -444,7 +501,10 @@ export default function CalendarApp({ signedIn }: { signedIn: boolean }) {
                 type="button"
                 className={`day${key === todayKey ? " today" : ""}`}
                 aria-label={`${prettyDate(key)}: ${summary}`}
-                onClick={() => setSelectedKey(key)}
+                onClick={() => {
+                  setSelectedKey(key);
+                  cancelFollowUp();
+                }}
               >
                 <span className="day-num">{d}</span>
                 {journeys.length > 0 && journeys.length <= MAX_PIPS && (
@@ -518,8 +578,17 @@ export default function CalendarApp({ signedIn }: { signedIn: boolean }) {
               {selectedJourneys.length === 0 ? (
                 <li className="journey-empty">Nothing logged yet. A clean slate — how unlike the railway.</li>
               ) : (
-                selectedJourneys.map((j) => (
-                  <li key={j.id} className="journey-item">
+                buildChains(selectedJourneys).map(({ j, depth }) => (
+                  <li
+                    key={j.id}
+                    className="journey-item"
+                    style={depth ? { marginLeft: Math.min(depth, 3) * 18 } : undefined}
+                  >
+                    {depth > 0 && (
+                      <span className="chain-arrow" aria-hidden="true">
+                        ↳
+                      </span>
+                    )}
                     <span className="journey-status">
                       <span className={`mark ${STATUS_META[j.status].cls}`} aria-hidden="true">
                         {STATUS_META[j.status].icon}
@@ -528,6 +597,20 @@ export default function CalendarApp({ signedIn }: { signedIn: boolean }) {
                       {j.status === "delayed" && j.mins ? ` · ${j.mins} min` : ""}
                     </span>
                     <span className="journey-desc">{journeyDesc(j)}</span>
+                    {j.status === "cancelled" && !followedIds.has(j.id) && (
+                      <button
+                        type="button"
+                        className="btn-del chain-btn"
+                        title="Log the next train after this one"
+                        aria-label={`Log the next train after: ${journeyTitle(j)}`}
+                        onClick={() => {
+                          setFollowUpOf(j);
+                          labelInputRef.current?.focus();
+                        }}
+                      >
+                        ↳
+                      </button>
+                    )}
                     {j.mine && (
                       <button
                         type="button"
@@ -543,23 +626,37 @@ export default function CalendarApp({ signedIn }: { signedIn: boolean }) {
               )}
             </ul>
 
+            {followUpOf && (
+              <div className="cascade-banner">
+                <span>
+                  <strong>{journeyDesc(followUpOf) || "That train"}</strong> was cancelled —{" "}
+                  <strong>what was next?</strong>
+                </span>
+                <button type="button" className="btn btn-small" onClick={cancelFollowUp}>
+                  skip
+                </button>
+              </div>
+            )}
+
             <form className="add-form" onSubmit={addJourney}>
               <fieldset className="status-picker">
                 <legend className="field-label">Verdict</legend>
-                {(Object.keys(STATUS_META) as Status[]).map((s) => (
-                  <label key={s} className="status-opt">
-                    <input
-                      type="radio"
-                      name="status"
-                      value={s}
-                      checked={formStatus === s}
-                      onChange={() => setFormStatus(s)}
-                    />
-                    <span className={`status-chip chip-${s === "ontime" ? "good" : s === "delayed" ? "warn" : "crit"}`}>
-                      <span aria-hidden="true">{STATUS_META[s].icon}</span> {STATUS_META[s].label}
-                    </span>
-                  </label>
-                ))}
+                {(Object.keys(STATUS_META) as Status[])
+                  .filter((s) => s !== "walked" || followUpOf)
+                  .map((s) => (
+                    <label key={s} className="status-opt">
+                      <input
+                        type="radio"
+                        name="status"
+                        value={s}
+                        checked={formStatus === s}
+                        onChange={() => setFormStatus(s)}
+                      />
+                      <span className={`status-chip chip-${CHIP_CLS[s]}`}>
+                        <span aria-hidden="true">{STATUS_META[s].icon}</span> {STATUS_META[s].label}
+                      </span>
+                    </label>
+                  ))}
               </fieldset>
 
               {formStatus === "delayed" && (

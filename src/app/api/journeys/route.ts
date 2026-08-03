@@ -45,6 +45,7 @@ export async function GET(req: NextRequest) {
       destination: r.destination ?? undefined,
       label: r.label ?? undefined,
       mins: r.mins ?? undefined,
+      followsId: r.followsId ?? undefined,
       mine: userId !== null && r.userId === userId,
     })),
   });
@@ -85,19 +86,72 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const [row] = await db()
-    .insert(journeys)
-    .values({
-      userId,
-      travelDate: date,
-      status: journey.status,
-      depTime: journey.depTime,
-      origin: journey.origin,
-      destination: journey.destination,
-      label: journey.label,
-      mins: journey.mins,
-    })
-    .returning();
+  // cascade link: only from a same-day cancelled train that is yours or anonymous
+  let followsId: number | undefined;
+  const rawFollows = (body as Record<string, unknown>).followsId;
+  if (journey.status === "walked" && rawFollows === undefined) {
+    return NextResponse.json(
+      { error: "Giving up and walking is only an option after a cancellation" },
+      { status: 400 }
+    );
+  }
+  if (rawFollows !== undefined) {
+    const fid = Number(rawFollows);
+    if (!Number.isInteger(fid) || fid < 1) {
+      return NextResponse.json({ error: "Bad cascade reference" }, { status: 400 });
+    }
+    const [target] = await db().select().from(journeys).where(eq(journeys.id, fid));
+    if (
+      !target ||
+      target.travelDate !== date ||
+      target.status !== "cancelled" ||
+      (target.userId !== null && target.userId !== userId)
+    ) {
+      return NextResponse.json(
+        { error: "A cascade can only continue from your own (or an anonymous) cancelled train on the same day" },
+        { status: 400 }
+      );
+    }
+    const [existing] = await db()
+      .select({ id: journeys.id })
+      .from(journeys)
+      .where(eq(journeys.followsId, fid))
+      .limit(1);
+    if (existing) {
+      return NextResponse.json(
+        { error: "That cancelled train already has a successor. One replacement per disappointment." },
+        { status: 409 }
+      );
+    }
+    followsId = fid;
+  }
+
+  let row;
+  try {
+    [row] = await db()
+      .insert(journeys)
+      .values({
+        userId,
+        travelDate: date,
+        status: journey.status,
+        depTime: journey.depTime,
+        origin: journey.origin,
+        destination: journey.destination,
+        label: journey.label,
+        mins: journey.mins,
+        followsId,
+      })
+      .returning();
+  } catch (e) {
+    // unique index on follows_id catches the race two successors would need
+    if (e instanceof Error && (("code" in e && e.code === "23505") || e.message.includes("journeys_follows_id_uniq"))) {
+      return NextResponse.json(
+        { error: "That cancelled train already has a successor. One replacement per disappointment." },
+        { status: 409 }
+      );
+    }
+    throw e;
+  }
 
   return NextResponse.json(
     {
@@ -110,6 +164,7 @@ export async function POST(req: NextRequest) {
         destination: row.destination ?? undefined,
         label: row.label ?? undefined,
         mins: row.mins ?? undefined,
+        followsId: row.followsId ?? undefined,
         mine: userId !== null,
       },
     },

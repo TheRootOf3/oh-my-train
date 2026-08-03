@@ -1,4 +1,5 @@
 import { auth, signIn, signOut } from "@/auth";
+import HelpButton from "@/components/HelpButton";
 import ThemeToggle from "@/components/ThemeToggle";
 
 export default async function TopBar() {
@@ -6,6 +7,7 @@ export default async function TopBar() {
 
   return (
     <div className="topbar">
+      <HelpButton />
       <ThemeToggle />
       {session?.user ? (
         <>

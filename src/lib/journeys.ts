@@ -1,4 +1,4 @@
-export const STATUSES = ["ontime", "delayed", "cancelled"] as const;
+export const STATUSES = ["ontime", "delayed", "cancelled", "walked"] as const;
 export type Status = (typeof STATUSES)[number];
 
 export type Journey = {
@@ -11,6 +11,8 @@ export type Journey = {
   destination?: string;
   /** free-text description from the static-site era */
   label?: string;
+  /** id of the cancelled journey this one replaced (cascade link) */
+  followsId?: number;
   /** true when the signed-in viewer owns this row (deletable) */
   mine?: boolean;
 };
