@@ -20,8 +20,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
         <footer className="footer">
           <p>This website has a 100% uptime record, which is more than can be said for the 07:43 to Euston.</p>
-          <p>Not affiliated with National Rail, any train operating company, or the concept of punctuality.</p>
-          <p>No trains were harmed in the making of this site. They never showed up.</p>
+          <p>
+            No trains were harmed in the making of this site. They never showed up.{" "}
+            <span aria-hidden="true">·</span>{" "}
+            <a className="footer-link" href="/about">
+              Small print
+            </a>
+          </p>
         </footer>
       </body>
     </html>

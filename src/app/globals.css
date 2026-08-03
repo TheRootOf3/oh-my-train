@@ -542,3 +542,49 @@ body {
   color: var(--muted);
 }
 .footer p { margin: 0.25rem 0; }
+
+.footer-link {
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.footer-link:hover { color: var(--accent); }
+
+/* ── small print page ── */
+
+.smallprint {
+  max-width: 42rem;
+  padding-bottom: 3rem;
+}
+
+.smallprint .board-title {
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+  margin: 1rem 0 0.4rem;
+}
+
+.smallprint h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 1.6rem 0 0.4rem;
+}
+
+.smallprint p,
+.smallprint li {
+  font-size: 0.95rem;
+  color: var(--ink-2);
+  margin: 0.5rem 0;
+}
+
+.smallprint ol { padding-left: 1.3rem; }
+
+.smallprint a:not(.btn) {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.smallprint-date {
+  font-size: 0.8rem !important;
+  color: var(--muted) !important;
+  font-style: italic;
+}
