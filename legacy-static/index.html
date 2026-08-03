@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oh My Train — the British rail disappointment diary</title>
+  <meta name="description" content="A calendar for documenting whether your train showed up. Spoiler: it was delayed.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚆</text></svg>">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="board">
+    <h1 class="board-title">Oh my train<span class="title-dot">.</span></h1>
+    <p class="tagline" id="tagline" title="Click for another apology">We apologise for the inconvenience this website may cause.</p>
+  </header>
+
+  <main class="container">
+
+    <section class="stats" aria-label="Monthly statistics">
+      <div class="kpi-row">
+        <div class="tile">
+          <p class="tile-label">Journeys</p>
+          <p class="tile-value" id="stat-total">0</p>
+          <p class="tile-sub" id="stat-total-sub">logged this month</p>
+        </div>
+        <div class="tile">
+          <p class="tile-label"><span class="mark mark-good" aria-hidden="true">●</span> On time</p>
+          <p class="tile-value" id="stat-ontime">–</p>
+          <p class="tile-sub" id="stat-ontime-sub">of journeys</p>
+        </div>
+        <div class="tile">
+          <p class="tile-label"><span class="mark mark-warn" aria-hidden="true">▲</span> Delayed</p>
+          <p class="tile-value" id="stat-delayed">0</p>
+          <p class="tile-sub" id="stat-delayed-sub">min of your life: 0</p>
+        </div>
+        <div class="tile">
+          <p class="tile-label"><span class="mark mark-crit" aria-hidden="true">✕</span> Cancelled</p>
+          <p class="tile-value" id="stat-cancelled">0</p>
+          <p class="tile-sub" id="stat-cancelled-sub">ghost trains</p>
+        </div>
+      </div>
+
+      <div class="meter" role="img" aria-label="Share of journeys by status" id="meter">
+        <div class="meter-track" id="meter-track"></div>
+      </div>
+
+      <p class="verdict" id="verdict">No journeys logged this month. Statistically, the safest way to travel by train.</p>
+    </section>
+
+    <section class="calendar" aria-label="Monthly calendar">
+      <div class="cal-nav">
+        <button class="btn" id="prev-month" aria-label="Previous month">‹</button>
+        <h2 class="cal-title" id="cal-title">Month Year</h2>
+        <button class="btn" id="next-month" aria-label="Next month">›</button>
+        <button class="btn btn-today" id="today-btn">Today</button>
+      </div>
+
+      <div class="cal-weekdays" aria-hidden="true">
+        <span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span><span>SUN</span>
+      </div>
+      <div class="cal-grid" id="cal-grid"></div>
+
+      <p class="legend">
+        <span><span class="mark mark-good" aria-hidden="true">●</span> On time</span>
+        <span><span class="mark mark-warn" aria-hidden="true">▲</span> Delayed</span>
+        <span><span class="mark mark-crit" aria-hidden="true">✕</span> Cancelled</span>
+        <span class="legend-hint">— click a day to log your suffering</span>
+      </p>
+    </section>
+
+    <section class="data-tools" aria-label="Data tools">
+      <button class="btn" id="export-btn">Export data</button>
+      <button class="btn" id="import-btn">Import data</button>
+      <input type="file" id="import-file" accept="application/json" hidden>
+      <span class="data-note">Data lives in your browser's localStorage. Like your train, it never leaves the station.</span>
+    </section>
+
+  </main>
+
+  <div class="overlay" id="overlay" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-head">
+        <h3 id="modal-title">Date</h3>
+        <button class="btn btn-close" id="modal-close" aria-label="Close">✕</button>
+      </div>
+
+      <ul class="journey-list" id="journey-list"></ul>
+
+      <form class="add-form" id="add-form">
+        <label class="field">
+          <span class="field-label">Journey <span class="field-opt">(optional)</span></span>
+          <input type="text" id="journey-label" placeholder="e.g. 08:12 to St Pancras" maxlength="60" autocomplete="off">
+        </label>
+
+        <fieldset class="status-picker">
+          <legend class="field-label">Verdict</legend>
+          <label class="status-opt">
+            <input type="radio" name="status" value="ontime">
+            <span class="status-chip chip-good"><span aria-hidden="true">●</span> On time</span>
+          </label>
+          <label class="status-opt">
+            <input type="radio" name="status" value="delayed" checked>
+            <span class="status-chip chip-warn"><span aria-hidden="true">▲</span> Delayed</span>
+          </label>
+          <label class="status-opt">
+            <input type="radio" name="status" value="cancelled">
+            <span class="status-chip chip-crit"><span aria-hidden="true">✕</span> Cancelled</span>
+          </label>
+        </fieldset>
+
+        <label class="field field-mins" id="mins-field">
+          <span class="field-label">Minutes late</span>
+          <input type="number" id="journey-mins" min="1" max="1440" placeholder="e.g. 25" inputmode="numeric">
+        </label>
+
+        <button type="submit" class="btn btn-primary">Log it</button>
+      </form>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>This website has a 100% uptime record, which is more than can be said for the 07:43 to Euston.</p>
+    <p>Not affiliated with National Rail, any train operating company, or the concept of punctuality.</p>
+    <p>No trains were harmed in the making of this site. They never showed up.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
