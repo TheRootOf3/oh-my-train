@@ -1,0 +1,261 @@
+{
+  "systemStatus": {
+    "realtimeNetworkRail": "OK",
+    "rttCore": "OK"
+  },
+  "query": {
+    "uniqueIdentity": "gb-nr:G77008:2026-08-04",
+    "detailed": false
+  },
+  "service": {
+    "scheduleMetadata": {
+      "uniqueIdentity": "gb-nr:G77008:2026-08-04",
+      "namespace": "gb-nr",
+      "identity": "G77008",
+      "departureDate": "2026-08-04",
+      "operator": {
+        "code": "GN",
+        "name": "Great Northern"
+      },
+      "modeType": "TRAIN",
+      "inPassengerService": true
+    },
+    "locations": [
+      {
+        "temporalData": {
+          "departure": {
+            "scheduleInternal": "2026-08-04T13:24:00",
+            "scheduleAdvertised": "2026-08-04T13:24:00",
+            "realtimeForecast": "2026-08-04T13:24:00",
+            "isCancelled": false
+          },
+          "scheduledCallType": "ADVERTISED_PICK_UP",
+          "realtimeCallType": "ADVERTISED_PICK_UP",
+          "displayAs": "CALL",
+          "isInterpolated": false
+        },
+        "locationMetadata": {
+          "platform": {
+            "planned": "9",
+            "forecast": "9"
+          },
+          "line": {
+            "planned": "FX",
+            "forecast": "FX"
+          }
+        },
+        "location": {
+          "namespace": "gb-nr",
+          "description": "London Kings Cross",
+          "shortCodes": [
+            "KGX"
+          ],
+          "longCodes": [
+            "KNGX"
+          ]
+        }
+      },
+      {
+        "temporalData": {
+          "arrival": {
+            "scheduleInternal": "2026-08-04T14:09:00",
+            "scheduleAdvertised": "2026-08-04T14:09:00",
+            "realtimeForecast": "2026-08-04T14:08:00",
+            "isCancelled": false
+          },
+          "departure": {
+            "scheduleInternal": "2026-08-04T14:09:00",
+            "scheduleAdvertised": "2026-08-04T14:09:00",
+            "realtimeForecast": "2026-08-04T14:09:00",
+            "isCancelled": false
+          },
+          "scheduledCallType": "ADVERTISED_OPEN",
+          "realtimeCallType": "ADVERTISED_OPEN",
+          "displayAs": "CALL",
+          "isInterpolated": false
+        },
+        "locationMetadata": {
+          "platform": {
+            "planned": "3",
+            "forecast": "3"
+          },
+          "line": {
+            "planned": "DM",
+            "forecast": "DM"
+          }
+        },
+        "location": {
+          "namespace": "gb-nr",
+          "description": "Cambridge South",
+          "shortCodes": [
+            "CMS"
+          ],
+          "longCodes": [
+            "CAMBSTH"
+          ]
+        }
+      },
+      {
+        "temporalData": {
+          "arrival": {
+            "scheduleInternal": "2026-08-04T14:13:00",
+            "scheduleAdvertised": "2026-08-04T14:13:00",
+            "realtimeForecast": "2026-08-04T14:12:00",
+            "isCancelled": false
+          },
+          "departure": {
+            "scheduleInternal": "2026-08-04T14:17:00",
+            "scheduleAdvertised": "2026-08-04T14:17:00",
+            "realtimeForecast": "2026-08-04T14:17:00",
+            "isCancelled": false
+          },
+          "scheduledCallType": "ADVERTISED_OPEN",
+          "realtimeCallType": "ADVERTISED_OPEN",
+          "displayAs": "CALL",
+          "isInterpolated": false
+        },
+        "locationMetadata": {
+          "platform": {
+            "planned": "1",
+            "forecast": "1"
+          }
+        },
+        "location": {
+          "namespace": "gb-nr",
+          "description": "Cambridge",
+          "shortCodes": [
+            "CBG"
+          ],
+          "longCodes": [
+            "CAMBDGE"
+          ]
+        }
+      },
+      {
+        "temporalData": {
+          "arrival": {
+            "scheduleInternal": "2026-08-04T14:20:00",
+            "scheduleAdvertised": "2026-08-04T14:21:00",
+            "realtimeForecast": "2026-08-04T14:20:00",
+            "isCancelled": false
+          },
+          "departure": {
+            "scheduleInternal": "2026-08-04T14:21:00",
+            "scheduleAdvertised": "2026-08-04T14:21:00",
+            "realtimeForecast": "2026-08-04T14:21:00",
+            "isCancelled": false
+          },
+          "scheduledCallType": "ADVERTISED_OPEN",
+          "realtimeCallType": "ADVERTISED_OPEN",
+          "displayAs": "CALL",
+          "isInterpolated": false
+        },
+        "locationMetadata": {
+          "platform": {
+            "planned": "2",
+            "forecast": "2"
+          }
+        },
+        "location": {
+          "namespace": "gb-nr",
+          "description": "Cambridge North",
+          "shortCodes": [
+            "CMB"
+          ],
+          "longCodes": [
+            "CAMBNTH"
+          ]
+        }
+      },
+      {
+        "temporalData": {
+          "arrival": {
+            "scheduleInternal": "2026-08-04T14:25:00",
+            "scheduleAdvertised": "2026-08-04T14:26:00",
+            "realtimeForecast": "2026-08-04T14:25:00",
+            "isCancelled": false
+          },
+          "departure": {
+            "scheduleInternal": "2026-08-04T14:26:00",
+            "scheduleAdvertised": "2026-08-04T14:26:00",
+            "realtimeForecast": "2026-08-04T14:26:00",
+            "isCancelled": false
+          },
+          "scheduledCallType": "ADVERTISED_OPEN",
+          "realtimeCallType": "ADVERTISED_OPEN",
+          "displayAs": "CALL",
+          "isInterpolated": false
+        },
+        "locationMetadata": {},
+        "location": {
+          "namespace": "gb-nr",
+          "description": "Waterbeach",
+          "shortCodes": [
+            "WBC"
+          ],
+          "longCodes": [
+            "WATBECH"
+          ]
+        }
+      },
+      {
+        "temporalData": {
+          "arrival": {
+            "scheduleInternal": "2026-08-04T14:38:00",
+            "scheduleAdvertised": "2026-08-04T14:38:00",
+            "realtimeForecast": "2026-08-04T14:38:00",
+            "isCancelled": false
+          },
+          "scheduledCallType": "ADVERTISED_SET_DOWN",
+          "realtimeCallType": "ADVERTISED_SET_DOWN",
+          "displayAs": "CALL",
+          "isInterpolated": false
+        },
+        "locationMetadata": {
+          "platform": {
+            "planned": "3A",
+            "forecast": "3A"
+          }
+        },
+        "location": {
+          "namespace": "gb-nr",
+          "description": "Ely",
+          "shortCodes": [
+            "ELY"
+          ],
+          "longCodes": [
+            "ELYY"
+          ]
+        }
+      }
+    ],
+    "origin": [
+      {
+        "location": {
+          "description": "London Kings Cross",
+          "longCodes": [
+            "KNGX"
+          ]
+        },
+        "temporalData": {
+          "scheduleInternal": "2026-08-04T13:24:00",
+          "scheduleAdvertised": "2026-08-04T13:24:00"
+        }
+      }
+    ],
+    "destination": [
+      {
+        "location": {
+          "description": "Ely",
+          "longCodes": [
+            "ELYY"
+          ]
+        },
+        "temporalData": {
+          "scheduleInternal": "2026-08-04T14:38:00",
+          "scheduleAdvertised": "2026-08-04T14:38:00"
+        }
+      }
+    ]
+  }
+}

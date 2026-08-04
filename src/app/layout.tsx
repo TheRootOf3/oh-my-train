@@ -27,6 +27,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               Small print
             </a>
           </p>
+          <p>
+            Live rail data courtesy of{" "}
+            <a className="footer-link" href="https://www.realtimetrains.co.uk" target="_blank" rel="noopener noreferrer">
+              Realtime Trains
+            </a>
+            {" "}— one of the few things in British rail that actually turns up.
+          </p>
         </footer>
       </body>
     </html>

@@ -1,0 +1,226 @@
+{
+  "systemStatus": {
+    "realtimeNetworkRail": "OK",
+    "rttCore": "OK"
+  },
+  "query": {
+    "location": {
+      "namespace": "gb-nr",
+      "description": "London Kings Cross",
+      "shortCodes": [
+        "KGX"
+      ],
+      "longCodes": [
+        "KNGX"
+      ]
+    },
+    "timeFrom": "2026-08-04T12:43:21+01:00",
+    "timeTo": "2026-08-04T14:43:21+01:00",
+    "detailed": false,
+    "filterTo": {
+      "namespace": "gb-nr",
+      "description": "Cambridge",
+      "shortCodes": [
+        "CBG"
+      ],
+      "longCodes": [
+        "CAMBDGE"
+      ]
+    }
+  },
+  "services": [
+    {
+      "temporalData": {
+        "departure": {
+          "scheduleInternal": "2026-08-04T13:24:00",
+          "scheduleAdvertised": "2026-08-04T13:24:00",
+          "realtimeForecast": "2026-08-04T13:24:00",
+          "isCancelled": false
+        },
+        "scheduledCallType": "ADVERTISED_PICK_UP",
+        "realtimeCallType": "ADVERTISED_PICK_UP",
+        "displayAs": "CALL",
+        "isInterpolated": false
+      },
+      "locationMetadata": {
+        "platform": {
+          "planned": "9",
+          "forecast": "9"
+        },
+        "line": {
+          "planned": "FX"
+        }
+      },
+      "scheduleMetadata": {
+        "uniqueIdentity": "gb-nr:G77008:2026-08-04",
+        "namespace": "gb-nr",
+        "identity": "G77008",
+        "departureDate": "2026-08-04",
+        "operator": {
+          "code": "GN",
+          "name": "Great Northern"
+        },
+        "modeType": "TRAIN",
+        "inPassengerService": true
+      },
+      "origin": [
+        {
+          "location": {
+            "description": "London Kings Cross",
+            "longCodes": [
+              "KNGX"
+            ]
+          },
+          "temporalData": {
+            "scheduleInternal": "2026-08-04T13:24:00",
+            "scheduleAdvertised": "2026-08-04T13:24:00"
+          }
+        }
+      ],
+      "destination": [
+        {
+          "location": {
+            "description": "Ely",
+            "longCodes": [
+              "ELYY"
+            ]
+          },
+          "temporalData": {
+            "scheduleInternal": "2026-08-04T14:38:00",
+            "scheduleAdvertised": "2026-08-04T14:38:00"
+          }
+        }
+      ]
+    },
+    {
+      "temporalData": {
+        "departure": {
+          "scheduleInternal": "2026-08-04T13:36:00",
+          "scheduleAdvertised": "2026-08-04T13:36:00",
+          "realtimeForecast": "2026-08-04T13:36:00",
+          "isCancelled": false
+        },
+        "scheduledCallType": "ADVERTISED_PICK_UP",
+        "realtimeCallType": "ADVERTISED_PICK_UP",
+        "displayAs": "CALL",
+        "isInterpolated": false
+      },
+      "locationMetadata": {
+        "platform": {
+          "planned": "10",
+          "forecast": "10"
+        },
+        "line": {
+          "planned": "FX"
+        },
+        "numberOfVehicles": 8,
+        "allocationIndex": 0
+      },
+      "scheduleMetadata": {
+        "uniqueIdentity": "gb-nr:C10187:2026-08-04",
+        "namespace": "gb-nr",
+        "identity": "C10187",
+        "departureDate": "2026-08-04",
+        "operator": {
+          "code": "GN",
+          "name": "Great Northern"
+        },
+        "modeType": "TRAIN",
+        "inPassengerService": true
+      },
+      "origin": [
+        {
+          "location": {
+            "description": "London Kings Cross",
+            "longCodes": [
+              "KNGX"
+            ]
+          },
+          "temporalData": {
+            "scheduleInternal": "2026-08-04T13:36:00",
+            "scheduleAdvertised": "2026-08-04T13:36:00"
+          }
+        }
+      ],
+      "destination": [
+        {
+          "location": {
+            "description": "Cambridge",
+            "longCodes": [
+              "CAMBDGE"
+            ]
+          },
+          "temporalData": {
+            "scheduleInternal": "2026-08-04T15:05:00",
+            "scheduleAdvertised": "2026-08-04T15:05:00"
+          }
+        }
+      ]
+    },
+    {
+      "temporalData": {
+        "departure": {
+          "scheduleInternal": "2026-08-04T14:06:00",
+          "scheduleAdvertised": "2026-08-04T14:06:00",
+          "realtimeForecast": "2026-08-04T14:06:00",
+          "isCancelled": false
+        },
+        "scheduledCallType": "ADVERTISED_PICK_UP",
+        "realtimeCallType": "ADVERTISED_PICK_UP",
+        "displayAs": "CALL",
+        "isInterpolated": false
+      },
+      "locationMetadata": {
+        "platform": {
+          "planned": "10",
+          "forecast": "10"
+        },
+        "line": {
+          "planned": "F"
+        },
+        "numberOfVehicles": 8,
+        "allocationIndex": 0
+      },
+      "scheduleMetadata": {
+        "uniqueIdentity": "gb-nr:X83869:2026-08-04",
+        "namespace": "gb-nr",
+        "identity": "X83869",
+        "departureDate": "2026-08-04",
+        "operator": {
+          "code": "GN",
+          "name": "Great Northern"
+        },
+        "modeType": "TRAIN",
+        "inPassengerService": true
+      },
+      "origin": [
+        {
+          "location": {
+            "description": "London Kings Cross",
+            "longCodes": [
+              "KNGX"
+            ]
+          },
+          "temporalData": {
+            "scheduleInternal": "2026-08-04T14:06:00",
+            "scheduleAdvertised": "2026-08-04T14:06:00"
+          }
+        }
+      ],
+      "destination": [
+        {
+          "location": {
+            "description": "Cambridge",
+            "longCodes": [
+              "CAMBDGE"
+            ]
+          },
+          "temporalData": {
+            "scheduleInternal": "2026-08-04T15:37:00",
+            "scheduleAdvertised": "2026-08-04T15:37:00"
+          }
+        }
+      ]
+    }
+  ]
+}

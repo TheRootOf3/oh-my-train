@@ -1,0 +1,154 @@
+{
+  "stops": [
+    {
+      "namespace": "gb-nr",
+      "description": "Abbey Wood",
+      "shortCode": "ABW",
+      "uniqueIdentity": "gb-nr:ABW"
+    },
+    {
+      "namespace": "gb-nr",
+      "description": "Aber",
+      "shortCode": "ABE",
+      "uniqueIdentity": "gb-nr:ABE"
+    },
+    {
+      "namespace": "gb-nr",
+      "description": "Abercynon",
+      "shortCode": "ACY",
+      "uniqueIdentity": "gb-nr:ACY"
+    },
+    {
+      "namespace": "gb-nr",
+      "description": "Aberdare",
+      "shortCode": "ABA",
+      "uniqueIdentity": "gb-nr:ABA"
+    },
+    {
+      "namespace": "gb-nr",
+      "description": "Aberdeen",
+      "shortCode": "ABD",
+      "uniqueIdentity": "gb-nr:ABD"
+    },
+    {
+      "namespace": "gb-nr",
+      "description": "Aberdour",
+      "shortCode": "AUR",
+      "uniqueIdentity": "gb-nr:AUR"
+    },
+    {
+      "namespace": "gb-nr",
+      "description": "Aberdovey",
+      "shortCode": "AVY",
+      "uniqueIdentity": "gb-nr:AVY"
+    },
+    {
+      "namespace": "gb-nr",
+      "description": "Abererch",
+      "shortCode": "ABH",
+      "uniqueIdentity": "gb-nr:ABH"
+    },
+    {
+      "namespace": "gb-nr",
+      "description": "Abergavenny",
+      "shortCode": "AGV",
+      "uniqueIdentity": "gb-nr:AGV"
+    },
+    {
+      "namespace": "gb-nr",
+      "description": "Abergele & Pensarn",
+      "shortCode": "AGL",
+      "uniqueIdentity": "gb-nr:AGL"
+    },
+    {
+      "namespace": "gb-nr",
+      "description": "Aberystwyth",
+      "shortCode": "AYW",
+      "uniqueIdentity": "gb-nr:AYW"
+    },
+    {
+      "namespace": "gb-nr",
+      "description": "Accrington",
+      "shortCode": "ACR",
+      "uniqueIdentity": "gb-nr:ACR"
+    },
+    {
+      "namespace": "gb-nr",
+      "description": "Achanalt",
+      "shortCode": "AAT",
+      "uniqueIdentity": "gb-nr:AAT"
+    },
+    {
+      "namespace": "gb-nr",
+      "description": "Achnasheen",
+      "shortCode": "ACN",
+      "uniqueIdentity": "gb-nr:ACN"
+    },
+    {
+      "namespace": "gb-nr",
+      "description": "Achnashellach",
+      "shortCode": "ACH",
+      "uniqueIdentity": "gb-nr:ACH"
+    },
+    {
+      "namespace": "gb-nr",
+      "description": "Acklington",
+      "shortCode": "ACK",
+      "uniqueIdentity": "gb-nr:ACK"
+    },
+    {
+      "namespace": "gb-nr",
+      "description": "Acle",
+      "shortCode": "ACL",
+      "uniqueIdentity": "gb-nr:ACL"
+    },
+    {
+      "namespace": "gb-nr",
+      "description": "Acocks Green",
+      "shortCode": "ACG",
+      "uniqueIdentity": "gb-nr:ACG"
+    },
+    {
+      "namespace": "gb-nr",
+      "description": "Acton Bridge",
+      "shortCode": "ACB",
+      "uniqueIdentity": "gb-nr:ACB"
+    },
+    {
+      "namespace": "gb-nr",
+      "description": "Acton Central",
+      "shortCode": "ACC",
+      "uniqueIdentity": "gb-nr:ACC"
+    },
+    {
+      "namespace": "gb-nr",
+      "description": "Acton Main Line",
+      "shortCode": "AML",
+      "uniqueIdentity": "gb-nr:AML"
+    },
+    {
+      "namespace": "gb-nr",
+      "description": "Adderley Park",
+      "shortCode": "ADD",
+      "uniqueIdentity": "gb-nr:ADD"
+    },
+    {
+      "namespace": "gb-nr",
+      "description": "Addiewell",
+      "shortCode": "ADW",
+      "uniqueIdentity": "gb-nr:ADW"
+    },
+    {
+      "namespace": "gb-nr",
+      "description": "Addlestone",
+      "shortCode": "ASN",
+      "uniqueIdentity": "gb-nr:ASN"
+    },
+    {
+      "namespace": "gb-nr",
+      "description": "Adisham",
+      "shortCode": "ADM",
+      "uniqueIdentity": "gb-nr:ADM"
+    }
+  ]
+}
