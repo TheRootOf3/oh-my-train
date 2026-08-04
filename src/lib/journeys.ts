@@ -11,6 +11,8 @@ export type Journey = {
   destination?: string;
   /** free-text description from the static-site era */
   label?: string;
+  /** the official excuse, e.g. "awaiting train crew" */
+  reason?: string;
   /** id of the cancelled journey this one replaced (cascade link) */
   followsId?: number;
   /** true when the signed-in viewer owns this row (deletable) */
@@ -22,6 +24,7 @@ export type JourneyMap = Record<string, Journey[]>;
 
 export const MAX_LABEL = 60;
 export const MAX_PLACE = 40;
+export const MAX_REASON = 80;
 export const MAX_MINS = 1440;
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
@@ -44,6 +47,7 @@ export type CleanedJourney = {
   origin?: string;
   destination?: string;
   label?: string;
+  reason?: string;
 };
 
 function cleanText(v: unknown, max: number): string | undefined {
@@ -70,6 +74,10 @@ export function cleanJourney(
   out.origin = cleanText(r.origin, MAX_PLACE);
   out.destination = cleanText(r.destination, MAX_PLACE);
   out.label = cleanText(r.label, MAX_LABEL);
+  // only failure needs an excuse
+  if (r.status === "delayed" || r.status === "cancelled") {
+    out.reason = cleanText(r.reason, MAX_REASON);
+  }
 
   if (r.status === "delayed") {
     const mins = Number(r.mins);

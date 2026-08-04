@@ -14,6 +14,8 @@ export const journeys = pgTable(
     // free-text description from the static-site era
     label: text("label"),
     mins: integer("mins"),
+    // the official excuse — "awaiting train crew", "the wrong kind of snow", …
+    reason: text("reason"),
     // the cancelled journey this one replaced — a cascade of disappointment
     followsId: bigint("follows_id", { mode: "number" }),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
