@@ -94,6 +94,19 @@ openssl rand -base64 32   # → AUTH_SECRET
 | `GET /api/journeys/export` | session | all your own data, as JSON |
 | `POST /api/journeys/import` | session | bulk import (old static-site export shape) |
 
+## Contributing / workflow
+
+- **Never push to `main`** — branch, open a PR, let CI pass, merge. `main` is
+  branch-protected (CI required, no force pushes) and auto-deploys.
+- **Schema changes deploy in a strict order**: push the schema to the
+  production database *first* (`DATABASE_URL="<prod>" npm run db:push`), then
+  merge the code. Schema changes must stay additive (nullable columns, new
+  indexes) so old code keeps running against the new schema during the gap.
+  Merging code that expects a column production doesn't have yet is how you
+  cancel your own website.
+- `npm run lint && npm run typecheck && npm test` before pushing saves a CI
+  round trip.
+
 ## The static-site era
 
 The original zero-dependency version (localStorage, no server) lives on in
